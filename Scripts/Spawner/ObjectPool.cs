@@ -13,6 +13,7 @@ public class ObjectPool : MonoBehaviour
         for (int i = 0; i < _size; i++)
         {
             GameObject gameObject = Instantiate(_prefab);
+
             gameObject.SetActive(false);
             _gameObjects.Enqueue(gameObject);
         }

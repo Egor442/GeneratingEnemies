@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent (typeof(ObjectPool))]
+[RequireComponent(typeof(ObjectPool))]
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private float _secondsBetweenSpawn;
@@ -22,15 +22,21 @@ public class Spawner : MonoBehaviour
 
         if (_elepsedTime >= _secondsBetweenSpawn)
         {
-            GameObject gameObject = _pool.TryGetObject();
-
-            if (gameObject != null)
-            {
-                int spawnPointRandom = Random.Range(0, _spawnPoints.Length);
-                gameObject.transform.position = _spawnPoints[spawnPointRandom].position;
-            }
-
+            TrySpawn();
             _elepsedTime = 0;
+        }
+    }
+
+    private void TrySpawn()
+    {
+        GameObject gameObject = _pool.TryGetObject();
+
+        if (gameObject != null)
+        {
+            int spawnPointRandom = Random.Range(0, _spawnPoints.Length);
+
+            gameObject.transform.position = _spawnPoints[spawnPointRandom].position;
+            gameObject.transform.rotation = _spawnPoints[spawnPointRandom].rotation;
         }
     }
 }
