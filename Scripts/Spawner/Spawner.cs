@@ -8,11 +8,11 @@ public class Spawner : MonoBehaviour
     private float _elepsedTime;
     private ObjectPool _pool;
 
-    private Transform[] _spawnPoints;
+    private SpawnPoint[] _spawnPoints;
 
     public void Initialize()
     {
-        _spawnPoints = GetComponentsInChildren<Transform>();
+        _spawnPoints = GetComponentsInChildren<SpawnPoint>();
         _pool = GetComponent<ObjectPool>();
     }
 
@@ -33,10 +33,14 @@ public class Spawner : MonoBehaviour
 
         if (gameObject != null)
         {
-            int spawnPointRandom = Random.Range(0, _spawnPoints.Length);
-
-            gameObject.transform.position = _spawnPoints[spawnPointRandom].position;
-            gameObject.transform.rotation = _spawnPoints[spawnPointRandom].rotation;
+            gameObject.transform.position = _spawnPoints[GetRandomSpawnPoint()].transform.position;
+            gameObject.transform.forward = _spawnPoints[GetRandomSpawnPoint()].GenerateRandomDirection();
         }
+    }
+
+    private int GetRandomSpawnPoint()
+    {
+        int spawnPointRandom = Random.Range(0, _spawnPoints.Length);
+        return spawnPointRandom;
     }
 }

@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class EnemyMover : MonoBehaviour
 {
-    [SerializeField] private Vector3 _durations;
-
     [SerializeField] private float _minSpeed;
     [SerializeField] private float _maxSpeed;
 
@@ -21,6 +19,6 @@ public class EnemyMover : MonoBehaviour
 
     public void Move()
     {
-        transform.Translate(_durations * _currentSpeed * Time.deltaTime, Space.Self);
+        transform.Translate(_currentSpeed * Time.deltaTime, 0, 0, Space.Self);
     }
 }
