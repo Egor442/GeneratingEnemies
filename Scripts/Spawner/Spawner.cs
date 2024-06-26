@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(ObjectPool))]
@@ -9,6 +10,7 @@ public class Spawner : MonoBehaviour
     private ObjectPool _pool;
 
     private SpawnPoint[] _spawnPoints;
+    private Coroutine _coroutine;
 
     public void Initialize()
     {
@@ -16,14 +18,19 @@ public class Spawner : MonoBehaviour
         _pool = GetComponent<ObjectPool>();
     }
 
-    private void Update()
+    private void Start()
     {
-        _elepsedTime += Time.deltaTime;
+        _coroutine = StartCoroutine(CountDown(_secondsBetweenSpawn));
+    }
 
-        if (_elepsedTime >= _secondsBetweenSpawn)
+    private IEnumerator CountDown(float delay)
+    {
+        var wait = new WaitForSeconds(delay);
+
+        while (enabled)
         {
+            yield return wait;
             TrySpawn();
-            _elepsedTime = 0;
         }
     }
 
@@ -37,7 +44,7 @@ public class Spawner : MonoBehaviour
             gameObject.transform.forward = _spawnPoints[GetRandomSpawnPoint()].GenerateRandomDirection();
         }
     }
-
+    
     private int GetRandomSpawnPoint()
     {
         int spawnPointRandom = Random.Range(0, _spawnPoints.Length);
