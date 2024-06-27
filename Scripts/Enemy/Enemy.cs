@@ -14,4 +14,9 @@ public class Enemy : MonoBehaviour
     {
         _enemyMover.Move();
     }
+
+    public void SetDirection(Vector3 direction)
+    {
+        _enemyMover.SetDirection(direction);
+    }
 }

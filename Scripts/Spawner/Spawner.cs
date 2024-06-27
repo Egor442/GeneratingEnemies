@@ -1,21 +1,16 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(ObjectPool))]
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private float _secondsBetweenSpawn;
 
-    private float _elepsedTime;
-    private ObjectPool _pool;
-
-    private SpawnPoint[] _spawnPoints;
+    private EnemySpawnPoint[] _spawnPoints;
     private Coroutine _coroutine;
 
     public void Initialize()
     {
-        _spawnPoints = GetComponentsInChildren<SpawnPoint>();
-        _pool = GetComponent<ObjectPool>();
+        _spawnPoints = GetComponentsInChildren<EnemySpawnPoint>();
     }
 
     private void Start()
@@ -25,26 +20,13 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator CountDown(float delay)
     {
-        var wait = new WaitForSeconds(delay);
-
         while (enabled)
         {
-            yield return wait;
-            TrySpawn();
+            yield return new WaitForSeconds(delay);
+            _spawnPoints[GetRandomSpawnPoint()].SpawnEnemy();
         }
     }
-
-    private void TrySpawn()
-    {
-        GameObject gameObject = _pool.TryGetObject();
-
-        if (gameObject != null)
-        {
-            gameObject.transform.position = _spawnPoints[GetRandomSpawnPoint()].transform.position;
-            gameObject.transform.forward = _spawnPoints[GetRandomSpawnPoint()].GenerateRandomDirection();
-        }
-    }
-    
+   
     private int GetRandomSpawnPoint()
     {
         int spawnPointRandom = Random.Range(0, _spawnPoints.Length);

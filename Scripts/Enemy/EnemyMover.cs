@@ -4,8 +4,9 @@ public class EnemyMover : MonoBehaviour
 {
     [SerializeField] private float _minSpeed;
     [SerializeField] private float _maxSpeed;
-
     [SerializeField] private float _currentSpeed;
+
+    private Vector3 _direction;
 
     private void OnValidate()
     {
@@ -19,6 +20,11 @@ public class EnemyMover : MonoBehaviour
 
     public void Move()
     {
-        transform.Translate(_currentSpeed * Time.deltaTime, 0, 0, Space.Self);
+        transform.Translate(_direction * _currentSpeed * Time.deltaTime, Space.Self);
+    }
+
+    public void SetDirection(Vector3 direction)
+    {
+        _direction = direction;
     }
 }
