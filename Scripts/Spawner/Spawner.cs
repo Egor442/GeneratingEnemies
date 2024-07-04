@@ -20,10 +20,12 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator CountDown(float delay)
     {
+        var wait = new WaitForSeconds(delay);
+
         while (enabled)
-        {
-            yield return new WaitForSeconds(delay);
+        {            
             _spawnPoints[GetRandomSpawnPoint()].SpawnEnemy();
+            yield return wait;
         }
     }
    
