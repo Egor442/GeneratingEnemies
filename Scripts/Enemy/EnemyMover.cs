@@ -1,13 +1,12 @@
 using UnityEngine;
 
-public class EnemyMover : MonoBehaviour
+public abstract class EnemyMover : MonoBehaviour
 {
     [SerializeField] private float _minSpeed;
     [SerializeField] private float _maxSpeed;
-    [SerializeField] private float _currentSpeed;
 
-    private Vector3 _direction;
-
+    [SerializeField] protected float _currentSpeed;
+   
     private void OnValidate()
     {
         _currentSpeed = Mathf.Clamp(_currentSpeed, _minSpeed, _maxSpeed);
@@ -18,13 +17,10 @@ public class EnemyMover : MonoBehaviour
         }
     }
 
-    public void Move()
+    private void Update()
     {
-        transform.Translate(_direction * _currentSpeed * Time.deltaTime, Space.Self);
+        Move();
     }
 
-    public void SetDirection(Vector3 direction)
-    {
-        _direction = direction;
-    }
+    public abstract void Move();
 }
